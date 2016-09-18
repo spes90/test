@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <windows.h>
-
+// github test 
 void main() {
 	int s[3][3] = { NULL };
 	int a, b, c;
