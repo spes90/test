@@ -33,37 +33,42 @@ void drawLine2(const int& i0, const int& j0, const int& i1, const int& j1, const
 	}
 }
 
-//void drawcircle(const float& c_x, const float& c_y, const float &r, int num) {
-//	glBegin(GL_LINE_LOOP);
-//	for (int i = 0; i < num; i++)
-//	{
-//		float theta = 2.0f * 3.1415926f * float(i) / float(num);//get the current angle
-//
-//		float x = r * cosf(theta);//calculate the x component
-//		float y = r * sinf(theta);//calculate the y component
-//
-//		glVertex2f(x + c_x, y + c_y);//output vertex
-//
-//	}
-//	glEnd();
-//}
+void DrawCircle(float cx, float cy, float r, int num_segments)
+{
+	float theta = 2 * 3.1415926 / (float)num_segments;
+	float c = cosf(theta);//precalculate the sine and cosine
+	float s = sinf(theta);
+	float t;
 
+	float x = r;//we start at angle = 0 
+	float y = 0;
+
+	glBegin(GL_LINE_LOOP);
+	for (int ii = 0; ii < num_segments; ii++)
+	{
+		glVertex2f(x + cx, y + cy);//output vertex 
+
+								   //apply the rotation matrix
+		t = x;
+		x = c * x - s * y;
+		y = s * t + c * y;
+	}
+	glEnd();
+}
 
 void draw() {
 	int i_center = 100, j_center = 400 ,i2_center =650, j2_center = 450;
 	const int thickness = 3, thickness2 = 49;
-	/*const int time = 50;
-	int i1 = 600, i2 = 650, i3 = 700, j1 = 100, j2 = 150, j3 = 200;*/
-	
+	//thick line
 	for (int j = j_center - thickness; j < j_center + thickness; j++)
+	
 			for (int i = i_center - thickness; i < i_center + thickness; i++) {
 				for (int i = 100; i < 200; i++) {
-					
 					drawPixel(i, j, 0.0f, 0.0f, 0.0f);
 					
+				}
 			}
-	}
-	
+		
 	//square
 	drawLine(400, 400, 500, 400, 0.0f, 0.0f, 0.0f);
 	drawLine2(400, 400, 400, 500, 0.0f, 0.0f, 0.0f);
@@ -87,17 +92,9 @@ void draw() {
 	drawLine(370, 150, 400, 100, 0.0f, 0.0f, 0.0f);
 	drawLine(370, 150, 430, 200, 0.0f, 0.0f, 0.0f);
 	drawLine(430, 200, 490, 150, 0.0f, 0.0f, 0.0f);
-	drawLine(450, 100, 490, 150, 0.0f, 0.0f, 0.0f);
-	//circle
-	/*for (int i = 0; i < time; i++) {
-		drawLine(i2, j1, (i2 + 1), (j1 + 1), 1.0f, 0.0f, 0.0f);
-		i2 += 1, j1 += 1;
-	}*/
-	/*drawLine(650, 100, 660, 110, 1.0f, 0.0f, 0.0f);
-	drawLine(660, 110, 670, 115, 1.0f, 0.0f, 0.0f);
-	drawLine(670, 115, 685, 130, 1.0f, 0.0f, 0.0f);
-	drawLine(685, 130, 690, 140, 1.0f, 0.0f, 0.0f);
-	drawLine(690, 140, 700, 150, 1.0f, 0.0f, 0.0f);*/
+	drawLine(450, 100, 490, 150, 0.0f, 0.0f, 0.0f);	
+	//drawcicle
+	DrawCircle(300.0, 300.0, 50.0, 10);
 }
 
 int main(void)
@@ -135,6 +132,7 @@ int main(void)
 			}
 		// draw
 		draw();
+
 		// draw한것을 출력
 		glDrawPixels(width, height, GL_RGB, GL_FLOAT, pixels);
 
