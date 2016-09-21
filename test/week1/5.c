@@ -1,18 +1,20 @@
 #include <stdio.h>
 #include <windows.h>
-// github test 
+ 
 void main() {
 	int s[3][3] = { NULL };
-	int a, b, c;
+	int x, y, input;
+
 	while (1) {
 		for (int i = 0; i < 3; i++) {
-			printf("%d %d %d\n", s[i][0], s[i][1], s[i][2]);
+			for (int j = 0; j < 3; j++) {
+				printf("%d ", s[i][j]);
+			}
+			printf("\n");
 		}
 		printf("행 과 열 그리고 새로운 값을 입력하세요. ");
-		scanf("%d, %d, %d", &a, &b, &c);
-		c = s[a][b];
-
-		printf("%d", c);
-		system("cls");
+		scanf("%d %d %d", &x, &y, &input);
+		s[x - 1][y - 1] = input;
 	}
+	system("cls");
 }
